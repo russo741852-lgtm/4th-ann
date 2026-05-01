@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Srinidhi & Rohith | Blossom Mobile Edition</title>
+    
+    <!-- Premium Cinematic & Korean Style Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Nanum+Brush+Script&family=Playfair+Display:ital,wght@0,400;0,900;1,400&family=Montserrat:wght@300;800&family=Prata&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --olive-petal: #A3A380;
+            --golden-clover: #D7CE93;
+            --arctic-daisy: #EFE8CE;
+            --rose-blush: #D8A48F;
+            --peach-blossom: #B8858B;
+            --dark-sage: #4C5B48; 
+            --text: #2F362E;
+            --transition: 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body { 
+            background-color: var(--dark-sage);
+            /* ENHANCED BACKDROP: Textured Silk Gradient */
+            background: 
+                radial-gradient(circle at center, rgba(76, 91, 72, 0.8) 0%, rgba(30, 35, 28, 0.9) 100%),
+                url('https://www.transparenttextures.com/patterns/silk.png'),
+                url('https://images.unsplash.com/photo-1526047932273-341f2a7631f9?q=80&w=1000&auto=format&fit=crop&blur=50');
+            background-size: cover;
+            height: 100vh; 
+            overflow: hidden; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+
+        /* --- TYPOGRAPHY --- */
+        .poster-title {
+            font-family: 'Cinzel Decorative', cursive;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--peach-blossom);
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.3);
+            text-align: center;
+        }
+
+        .korean-script {
+            font-family: 'Nanum Brush Script', cursive;
+            font-size: 2.2rem;
+            color: var(--dark-sage);
+            text-align: center;
+        }
+
+        .photo-note {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.85rem;
+            text-align: center;
+            color: var(--dark-sage);
+            margin-top: 8px;
+            border-top: 1px dashed rgba(0,0,0,0.1);
+            padding-top: 5px;
+        }
+
+        /* --- GATEKEEPER (MOBILE OPTIMIZED) --- */
+        #gatekeeper {
+            position: fixed; inset: 0; z-index: 9999;
+            background: var(--dark-sage);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: transform 1.2s cubic-bezier(0.82, 0.01, 0.17, 1);
+        }
+
+        .vault-box {
+            background: var(--arctic-daisy);
+            width: 90%; max-width: 350px;
+            padding: 30px; border-radius: 25px; text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 3px solid var(--golden-clover);
+        }
+
+        #pin-hearts { font-size: 2.5rem; color: var(--peach-blossom); letter-spacing: 10px; margin-bottom: 20px; height: 40px; }
+
+        .dial-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .btn {
+            aspect-ratio: 1; border-radius: 15px; border: 1px solid var(--olive-petal);
+            background: white; color: var(--dark-sage); font-size: 1.2rem; 
+            font-family: 'Montserrat'; font-weight: 800; cursor: pointer;
+        }
+        .btn:active { background: var(--peach-blossom); color: white; transform: scale(0.95); }
+
+        /* --- 3D BOOK ENGINE (MOBILE FOCUS) --- */
+        .stage { 
+            perspective: 2000px; width: 100vw; height: 100vh; 
+            display: none; align-items: center; justify-content: center; 
+        }
+
+        .book {
+            width: 90vw; height: 60vh; max-width: 800px; max-height: 550px;
+            position: relative; transform-style: preserve-3d;
+            /* Adjusting for mobile: shift slightly right so left page is visible when flipped */
+            transition: transform 0.5s;
+        }
+
+        .page {
+            position: absolute; top: 0; right: 0; width: 50%; height: 100%;
+            transform-origin: left; transform-style: preserve-3d; transition: var(--transition);
+            z-index: 1;
+        }
+
+        .face {
+            position: absolute; inset: 0; backface-visibility: hidden;
+            padding: 20px; border-radius: 0 10px 10px 0;
+            box-shadow: inset 3px 0 15px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+
+        .back { transform: rotateY(180deg); border-radius: 10px 0 0 10px; }
+
+        .cover { 
+            background: var(--peach-blossom) !important;
+            justify-content: center; align-items: center;
+            border-left: 8px solid var(--rose-blush);
+            color: var(--arctic-daisy);
+        }
+
+        .photo-card {
+            width: 100%; flex-grow: 1; background: #fff; padding: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1); position: relative;
+            border: 1px solid #eee; display: flex; flex-direction: column;
+        }
+        .photo-card img { width: 100%; flex-grow: 1; object-fit: cover; border-radius: 2px; }
+        
+        .tape { 
+            position: absolute; top: -8px; left: 50%; transform: translateX(-50%); 
+            width: 70px; height: 20px; background: rgba(0,0,0,0.08); backdrop-filter: blur(3px);
+        }
+
+        .flipped { transform: rotateY(-180deg); }
+
+        /* Colors for Pages */
+        .c-olive { background: var(--olive-petal) !important; }
+        .c-golden { background: var(--golden-clover) !important; }
+        .c-arctic { background: var(--arctic-daisy) !important; }
+        .c-rose { background: var(--rose-blush) !important; }
+        .c-peach { background: var(--peach-blossom) !important; }
+
+        #secret-heart {
+            position: fixed; bottom: 20px; right: 20px; font-size: 2.5rem; 
+            filter: drop-shadow(0 5px 10px black); z-index: 10000; display: none;
+        }
+
+        /* --- MOBILE SCALE ADJUSTMENT --- */
+        @media (max-width: 600px) {
+            .book { width: 95vw; height: 50vh; }
+            .face { padding: 15px; }
+            .poster-title { font-size: 1.3rem !important; }
+            .korean-script { font-size: 1.6rem !important; }
+            .photo-note { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- PASSCODE -->
+    <div id="gatekeeper">
+        <div class="vault-box">
+            <h2 class="poster-title" style="font-size: 1rem; color: var(--dark-sage);">hello my love, guess the year we met</h2>
+            <div id="pin-hearts"></div>
+            <div class="dial-pad">
+                <script>
+                    for(let i=1; i<=9; i++) document.write(`<button class="btn" onclick="tap(${i})">${i}</button>`);
+                </script>
+                <button class="btn" onclick="clr()">×</button>
+                <button class="btn" onclick="tap(0)">0</button>
+                <button class="btn" onclick="go()" style="background:var(--peach-blossom); color:white;">❤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN BOOK -->
+    <div class="stage" id="main">
+        <div class="book" id="book">
+            
+            <!-- SHEET 1: FRONT COVER -->
+            <div class="page" style="z-index: 20;" onclick="flip(this)">
+                <div class="face cover">
+                    <p class="poster-title" style="font-size: 0.8rem; color: var(--golden-clover);">VOLUME IV</p>
+                    <h1 class="poster-title" style="font-size: 1.8rem; margin: 15px 0; color: white;">SRINIDHI'S<br>little suprise</h1>
+                    <p class="korean-script" style="color:var(--golden-clover); font-size: 1.5rem;">Happy 4th year Anniversary</p>
+                </div>
+                <div class="face back c-olive">
+                    <h2 class="poster-title" style="font-size: 0.9rem; color:white;">Chapter One</h2>
+                    <div class="photo-card">
+                        <div class="tape"></div>
+                        <img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?q=80&w=1000" alt="1">
+                        <p class="photo-note">NOTE: Our first meeting in March 2022.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SHEET 2: TIMELINE -->
+            <div class="page" style="z-index: 19;" onclick="flip(this)">
+                <div class="face c-golden">
+                    <h2 class="poster-title" style="font-size: 0.9rem;">ICF Park</h2>
+                    <div class="photo-card">
+                        <div class="tape"></div>
+                        <img src="https://images.unsplash.com/photo-1516589174184-c685265e4873?q=80&w=1000" alt="2">
+                        <p class="photo-note">NOTE: Our special commitment day.</p>
+                    </div>
+                </div>
+                <div class="face back c-arctic">
+                    <h2 class="poster-title" style="font-size: 0.9rem;">The Timeline</h2>
+                    <div style="font-family:'Prata', serif; font-size: 0.8rem; line-height: 1.8; margin-top: 10px;">
+                        <p>🌸 <b>May 08, 2022:</b> The Start.</p>
+                        <p>🌸 <b>Sept 05, 2022:</b> Secret Day ;)</p>
+                        <p style="color:var(--peach-blossom)">🌸 <b>Mar 20, 2024:</b> Marriage.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GALLERY SHEETS (Dynamic 10 Pages) -->
+            <script>
+                const imgs = [
+                    "https://images.unsplash.com/photo-1522673607200-1648832cee98", "https://images.unsplash.com/photo-1494774157365-9e04c6720e47",
+                    "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f", "https://images.unsplash.com/photo-1518895949257-7621c3c786d7",
+                    "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c", "https://images.unsplash.com/photo-1519741497674-611481863552",
+                    "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8", "https://images.unsplash.com/photo-1510076857177-7470076d4098",
+                    "https://images.unsplash.com/photo-1520854221256-17451cc331bf", "https://images.unsplash.com/photo-1529636760656-e09213d09128"
+                ];
+                const pageColors = ['c-rose', 'c-peach', 'c-olive', 'c-golden', 'c-arctic'];
+                for(let i=0; i<5; i++) {
+                    const z = 18 - i;
+                    document.write(`
+                        <div class="page" style="z-index: ${z};" onclick="flip(this)">
+                            <div class="face ${pageColors[i % 5]}">
+                                <div class="photo-card">
+                                    <div class="tape"></div>
+                                    <img src="${imgs[i*2]}?q=80&w=1000" alt="img">
+                                    <p class="photo-note">NOTE: Memory text for photo ${i*2+3}.</p>
+                                </div>
+                            </div>
+                            <div class="face back ${pageColors[(i+2) % 5]}">
+                                <div class="photo-card">
+                                    <div class="tape"></div>
+                                    <img src="${imgs[i*2+1]}?q=80&w=1000" alt="img">
+                                    <p class="photo-note">NOTE: Memory text for photo ${i*2+4}.</p>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                }
+            </script>
+
+            <!-- FINAL SHEET: CLOSING BACK COVER -->
+            <div class="page" style="z-index: 10;" onclick="flip(this)">
+                <div class="face c-peach">
+                    <p class="korean-script" style="color:white; margin-top:20%;">"Even if the moon melts, my love stays solid."</p>
+                    <p class="poster-title" style="color:white; font-size: 1rem; margin-top:10px;">HAPPY ANNIVERSARY!</p>
+                </div>
+                <div class="face cover back">
+                    <h1 class="poster-title" style="color:white; font-size: 1.8rem;">THE END</h1>
+                    <p class="korean-script" style="color:var(--golden-clover);">Rohith ❤️ Srinidhi</p>
+                    <p style="color: white; opacity: 0.6; font-size: 0.6rem; margin-top: 20px;">ALWAYS & FOREVER</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="secret-heart" onclick="alert('Kutta Manda! ❤️')">💝</div>
+
+    <script>
+        let pin = "";
+        function tap(n) { if(pin.length < 4) { pin += n; document.getElementById('pin-hearts').innerText = "❤".repeat(pin.length); } }
+        function clr() { pin = ""; document.getElementById('pin-hearts').innerText = ""; }
+        function go() {
+            if(pin === "2022") {
+                document.getElementById('gatekeeper').style.transform = "translateY(-100%)";
+                setTimeout(() => {
+                    document.getElementById('main').style.display = "flex";
+                    document.getElementById('secret-heart').style.display = "block";
+                    document.getElementById('bgMusic').play();
+                }, 1000);
+            } else { alert("Hint: 2022"); clr(); }
+        }
+        function flip(el) {
+            el.classList.toggle('flipped');
+            const pages = Array.from(document.querySelectorAll('.page'));
+            el.style.zIndex = 100;
+            setTimeout(() => {
+                pages.forEach((p, idx) => {
+                    if (p.classList.contains('flipped')) { p.style.zIndex = idx + 1; } 
+                    else { p.style.zIndex = pages.length - idx + 10; }
+                });
+            }, 600);
+        }
+    </script>
+</body>
+</html>
